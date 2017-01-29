@@ -124,4 +124,21 @@ class Array
   end
 
 
+  def bubble_sort(&prc)
+    prc ||= Proc.new { |x, y| x <=> y }
+    sorted = false
+    swap = false
+    until sorted
+      swap = false
+      self.each_index do |idx|
+        if prc.call(self[idx], self[idx + 1]) == 1
+          self[idx], self[idx + 1] = self[idx + 1], self[idx]
+          swap = true
+        end
+      end
+      sorted = true if swap == false
+    end
+    self
+  end
+
 end

@@ -183,4 +183,24 @@ class Array
 
   end
 
+  def deep_dup
+    res_arr = []
+    self.each do |el|
+      if el.is_a?(Array)
+        res_arr << el.deep_dup
+      else
+        res_arr << el
+      end
+    end
+    res_arr
+  end
+
+  def subsets
+    res_arr = [[]]
+    return res_arr if self.empty?
+    part_arr = self[0...-1].subsets
+    part_arr + part_arr.map { |el| el + [self.last] }
+  end
+
+
 end

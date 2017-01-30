@@ -141,4 +141,46 @@ class Array
     self
   end
 
+  def quick_sort(&prc)
+    prc ||= Proc.new { |x, y| x <=> y }
+    pivot = self[self.length / 2]
+    return self if self.length <= 1
+    left_arr = []
+    right_arr = []
+    same_arr = []
+    self.each do |el|
+      if prc.call(pivot, el) == -1
+        right_arr << el
+      elsif prc.call(pivot, el) == 0
+        same_arr << el
+      else
+        left_arr << el
+      end
+    end
+    left_arr.quick_sort + same_arr + right_arr.quick_sort
+  end
+
+  def merge_sort(&prc)
+    prc ||= Proc.new { |x, y| x <=> y }
+    return self if self.length <= 1
+    left_arr = [0...self.length / 2].merge_sort(&prc)
+    right_arr = [self.length / 2..-1].merge_sort(&prc)
+    Array.merge(left_arr, right_arr, &prc)
+
+
+  end
+
+  def self.merge(left_arr, right_arr, &prc)
+    res_arr = []
+    if prc.call(left_arr, right_arr) == -1
+      res_arr = left_arr + right_arr
+    elsif prc.call(pivot, el) == 0
+      res_arr = left_arr + right_arr
+    else
+      res_arr = rigth_arr + left_arr
+    end
+    res_arr
+
+  end
+
 end
